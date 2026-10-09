@@ -1,38 +1,53 @@
 <script>
-import {Trash} from 'lucide-vue-next';
+import { Pencil, Trash } from "lucide-vue-next";
 export default {
-  components:{Trash},
+  components: { Pencil, Trash },
   props: ["ressource"],
-  inject:['removeRessource'],
-  methods:{
-    remove(){
-      const ok = confirm(`are you sure to delete ${this.ressource.title ?? 'this ressource'} ?`);
-      if(ok){
+  inject: ["editRessource", "removeRessource"],
+  methods: {
+    edit() {
+      this.editRessource(this.ressource);
+    },
+    remove() {
+      const ok = confirm(
+        `are you sure to delete ${this.ressource.title ?? "this ressource"} ?`,
+      );
+      if (ok) {
         this.removeRessource(this.ressource);
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
 <template>
   <article class="ressources_item">
-    <div class="item_cta"><button class="btn-delete" @click="remove"><Trash :size="12" > Delete</Trash></button></div>
+    <div class="item_cta">
+      <button class="btn-edit" @click="edit">
+        <Pencil :size="12">Edit</Pencil>
+      </button>
+      <button class="btn-delete" @click="remove">
+        <Trash :size="12">Delete</Trash>
+      </button>
+    </div>
     <div>
       <h3>{{ ressource.title }}</h3>
       <p>{{ ressource.description }}</p>
       <a :href="ressource.link">Read more...</a>
     </div>
-    <hr>
+    <hr />
   </article>
 </template>
 
 <style scoped>
-r.essources_item{}
+r.essources_item {
+}
 .item_cta {
+  display: flex;
+  justify-content: flex-end;
+  gap:0.25em;
   margin: 1em 0;
   text-align: right;
- 
 }
 a {
   display: block;

@@ -11,37 +11,51 @@ export default {
     return {
       activeTab: "stored-ressources",
       ressources: this.loadRessources(),
+      ressource: null,
     };
   },
   methods: {
     selectTab(tab) {
       this.activeTab = tab;
     },
-    loadRessources(){
-      const localRessources = localStorage.getItem('ressources');
+    loadRessources() {
+      const localRessources = localStorage.getItem("ressources");
       return JSON.parse(localRessources) ?? [];
     },
-     saveRessources(){
-      localStorage.setItem('ressources', JSON.stringify(this.ressources));
+    saveRessources() {
+      localStorage.setItem("ressources", JSON.stringify(this.ressources));
     },
-    addRessource(ressource){
-      this.ressources.unshift({...ressource, id:crypto.randomUUID()});
+    addRessource(ressource) {
+      this.ressources.unshift({ ...ressource, id: crypto.randomUUID() });
       this.saveRessources();
-      this.selectTab('stored-ressources');
+      this.selectTab("stored-ressources");
     },
-    removeRessource(ressource){
-      const index = this.ressources.findIndex((r)=> r.id===ressource.id);
+    updateRessources(ressource) {
+      const index = this.ressources.findIndex((r) => r.id === ressource.id);
+      this.ressources.splice(index, 1, { ...ressource });
+      this.ressource = null;
+      this.selectTab("stored-ressources");
+      this.saveRessources();
+    },
+    editRessource(ressource) {
+      this.ressource = ressource;
+      this.selectTab("base-ressource-form");
+    },
+    removeRessource(ressource) {
+      const index = this.ressources.findIndex((r) => r.id === ressource.id);
       this.ressources.splice(index, 1);
       this.saveRessources();
-    }
+    },
   },
-  provide(){
-    return{
+  provide() {
+    return {
       ressources: this.ressources,
+      updateRessources: this.updateRessources,
       addRessource: this.addRessource,
-      removeRessource:this.removeRessource,
-    }
-  }
+      editRessource: this.editRessource,
+      removeRessource: this.removeRessource,
+    };
+  },
 };
 </script>
 
@@ -64,6 +78,8 @@ export default {
     >
       Add ressource
     </button>
-    <keep-alive><component :is="activeTab"> </component></keep-alive>
+    <!-- <keep-alive> -->
+    <component :is="activeTab" :ressource="ressource"> </component>
+    <!-- </keep-alive> -->
   </div>
 </template>

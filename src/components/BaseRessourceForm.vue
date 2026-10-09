@@ -3,18 +3,24 @@ import BaseDialog from "./BaseDialog.vue";
 import { isValidLink } from "../utilities/form-validators";
 export default {
   components: { BaseDialog },
-  inject: ["addRessource"],
+  props: {
+    ressource: { type: Object, required: false },
+  },
+  inject: ["updateRessources", "addRessource"],
   data() {
     return {
+      data: { title: "", description: "", link: "", ...this.ressource },
       formIsInvalid: false,
       error: [],
     };
   },
   methods: {
     submit() {
+      // Reset Errors.
       this.formIsInvalid = false;
       const errors = [];
-      this.error ="";
+      this.error = "";
+      //
       const data = Object.fromEntries(new FormData(this.$refs.form));
       for (const [key, value] of Object.entries(data)) {
         if (value === "") {
@@ -33,8 +39,9 @@ export default {
         this.formIsInvalid = true;
         return;
       }
-
-      this.addRessource(data);
+      this.ressource
+        ? this.updateRessources({ id: this.ressource.id, ...data })
+        : this.addRessource(data);
       this.$refs.form.reset();
     },
   },
@@ -46,15 +53,21 @@ export default {
     <form ref="form" @submit.prevent="submit" novalidate>
       <label>
         <span class="label"><small>Title</small></span>
-        <input type="text" name="title" required />
+        <input type="text" name="title" required v-model="data.title" />
       </label>
       <label>
         <span class="label"><small>Description</small></span>
-        <textarea name="description" id="" rows="10" required></textarea>
+        <textarea
+          name="description"
+          id=""
+          rows="10"
+          required
+          v-model="data.description"
+        ></textarea>
       </label>
       <label>
         <span class="label"><small>Link</small></span>
-        <input type="url" name="link" required />
+        <input type="url" name="link" required v-model="data.link" />
       </label>
       <button class="btn-cta" type="submit">Add Ressource</button>
     </form>
@@ -74,8 +87,8 @@ form {
 }
 
 ul.error > li {
-  margin:0;
-  padding:0;
+  margin: 0;
+  padding: 0;
   list-style-position: inside;
 }
 </style>
