@@ -47,7 +47,7 @@ export default {
   display: flex;
   justify-content: flex-end;
   gap:0.25em;
-  margin: 1em 0;
+  margin: 2em 0 0 0;
   text-align: right;
 }
 a {

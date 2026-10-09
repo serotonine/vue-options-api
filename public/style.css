@@ -36,10 +36,6 @@ a:focus {
   color: peru;
 }
 
-/* .container {
-  width: 100%;
-  margin-top: 5rem;
-} */
 .container {
   width: min(100%, 38rem);
   margin-inline: auto;
@@ -69,34 +65,36 @@ button {
     border-radius: 5px;
     margin-bottom: 1em;
   }
-
-  &.btn-edit {
-    width: 2em;
-    height: 2em;
-    padding: 0.5em;
-    border-radius: 100%;
-    background-color: gainsboro;
-    transition: background-color 0.2s ease-out;
-
-    &:hover,
-    &:focus {
-      background-color: rgb(30, 104, 239);
-    }
-  }
-
+  &.btn-edit,
   &.btn-delete {
     width: 2em;
     height: 2em;
     padding: 0.5em;
     border-radius: 100%;
     background-color: gainsboro;
-    transition: background-color 0.2s ease-out;
+    transition: background-color 0.2s ease-out, opacity 0.2s ease-out;
+    opacity: 0.7;
+    &:hover,
+    &:focus {
+      opacity: 1;
+    }
+  }
+  &.btn-edit {
+    &:hover,
+    &:focus {
+      background-color: rgb(30, 104, 239);
+      
+    }
+    
+  }
 
+  &.btn-delete {
     &:hover,
     &:focus {
       background-color: crimson;
+     
     }
-
+    
   }
 
   &.btn-neutral {

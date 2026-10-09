@@ -29,6 +29,7 @@ export default {
       if (data.link !== "" && !isValidLink(data.link)) {
         errors.push("link is not valid");
       }
+      
       if (errors.length) {
         for (const err of errors) {
           this.error.push(err);
@@ -66,13 +67,15 @@ export default {
         <span class="label"><small>Link</small></span>
         <input type="url" name="link" required v-model="data.link" />
       </label>
-      <button class="btn-cta" type="submit">{{ resource ? 'Update resource' : 'Add resource' }}</button>
+      <button class="btn-cta" type="submit">
+        {{ resource ? "Update resource" : "Add resource" }}
+      </button>
     </form>
     <Teleport to="body">
       <base-dialog v-if="formIsInvalid" @close="formIsInvalid = false">
         <h3 class="error">Please fix:</h3>
         <ul class="error">
-          <li v-for="e in error" :key="e">{{e}}</li>
+          <li v-for="e in error" :key="e">{{ e }}</li>
         </ul>
       </base-dialog>
     </Teleport>
