@@ -2,18 +2,21 @@
 import { Pencil, Trash } from "lucide-vue-next";
 export default {
   components: { Pencil, Trash },
-  props: ["ressource"],
-  inject: ["editRessource", "removeRessource"],
+  props: ["resource", "hr"],
+  inject: ["editResource", "removeResource"],
   methods: {
     edit() {
-      this.editRessource(this.ressource);
+      this.editResource(this.resource);
     },
     remove() {
       const ok = confirm(
-        `are you sure to delete ${this.ressource.title ?? "this ressource"} ?`,
+        `are you sure to delete ${this.resource.title ?? "this resource"} ?`,
       );
       if (ok) {
-        this.removeRessource(this.ressource);
+        this.removeResource(this.resource);
+      }
+      else{
+        this.$refs.cancelButton.blur();
       }
     },
   },
@@ -21,21 +24,21 @@ export default {
 </script>
 
 <template>
-  <article class="ressources_item">
+  <article class="resources_item">
     <div class="item_cta">
       <button class="btn-edit" @click="edit">
         <Pencil :size="12">Edit</Pencil>
       </button>
-      <button class="btn-delete" @click="remove">
+      <button class="btn-delete" @click="remove" ref="cancelButton">
         <Trash :size="12">Delete</Trash>
       </button>
     </div>
     <div>
-      <h3>{{ ressource.title }}</h3>
-      <p>{{ ressource.description }}</p>
-      <a :href="ressource.link" target="_blank" rel="noopener noreferrer">Read more...</a>
+      <h3>{{ resource.title }}</h3>
+      <p>{{ resource.description }}</p>
+      <a :href="resource.link" target="_blank" rel="noopener noreferrer">Read more...</a>
     </div>
-    <hr />
+    <hr v-if="hr">
   </article>
 </template>
 

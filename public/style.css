@@ -1,9 +1,11 @@
 html {
   font-family: sans-serif;
 }
+html *{ box-sizing: border-box;}
 
 body {
   margin: 0;
+  padding: 0 1em;
 }
 
 h1 {
@@ -34,9 +36,13 @@ a:focus {
   color: peru;
 }
 
+/* .container {
+  width: 100%;
+  margin-top: 5rem;
+} */
 .container {
-  width: 50%;
-  margin: 0 auto;
+  width: min(100%, 38rem);
+  margin-inline: auto;
   margin-top: 5rem;
 }
 
@@ -131,9 +137,10 @@ label:has(:required) span {
   }
 }
 
-hr {
+.container hr {
   color: cornflowerblue;
 }
+
 
 .error {
   color: crimson;

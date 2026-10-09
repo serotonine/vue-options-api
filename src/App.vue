@@ -1,60 +1,60 @@
 <script>
-import StoredRessources from "./components/StoredRessources.vue";
-import BaseRessourceForm from "./components/BaseRessourceForm.vue";
+import StoredResources from "./components/StoredResources.vue";
+import BaseResourceForm from "./components/BaseResourceForm.vue";
 
 export default {
   components: {
-    StoredRessources,
-    BaseRessourceForm,
+    StoredResources,
+    BaseResourceForm,
   },
   data() {
     return {
-      activeTab: "stored-ressources",
-      ressources: this.loadRessources(),
-      ressource: null,
+      activeTab: "stored-resources",
+      resources: this.loadResources(),
+      resource: null,
     };
   },
   methods: {
     selectTab(tab, isEmpty=false) {
-      if(isEmpty) this.ressource = null;
+      if(isEmpty) this.resource = null;
       this.activeTab = tab;
     },
-    loadRessources() {
-      const localRessources = localStorage.getItem("ressources");
-      return JSON.parse(localRessources) ?? [];
+    loadResources() {
+      const localResources = localStorage.getItem("resources");
+      return JSON.parse(localResources) ?? [];
     },
-    saveRessources() {
-      localStorage.setItem("ressources", JSON.stringify(this.ressources));
+    saveResources() {
+      localStorage.setItem("resources", JSON.stringify(this.resources));
     },
-    addRessource(ressource) {
-      this.ressources.unshift({ ...ressource, id: crypto.randomUUID() });
-      this.saveRessources();
-      this.selectTab("stored-ressources");
+    addResource(resource) {
+      this.resources.unshift({ ...resource, id: crypto.randomUUID() });
+      this.saveResources();
+      this.selectTab("stored-resources");
     },
-    updateRessources(ressource) {
-      const index = this.ressources.findIndex((r) => r.id === ressource.id);
-      this.ressources.splice(index, 1, { ...ressource });
-      this.ressource = null;
-      this.selectTab("stored-ressources");
-      this.saveRessources();
+    updateResources(resource) {
+      const index = this.resources.findIndex((r) => r.id === resource.id);
+      this.resources.splice(index, 1, { ...resource });
+      this.resource = null;
+      this.selectTab("stored-resources");
+      this.saveResources();
     },
-    editRessource(ressource) {
-      this.ressource = ressource;
-      this.selectTab("base-ressource-form");
+    editResource(resource) {
+      this.resource = resource;
+      this.selectTab("base-resource-form");
     },
-    removeRessource(ressource) {
-      const index = this.ressources.findIndex((r) => r.id === ressource.id);
-      this.ressources.splice(index, 1);
-      this.saveRessources();
+    removeResource(resource) {
+      const index = this.resources.findIndex((r) => r.id === resource.id);
+      this.resources.splice(index, 1);
+      this.saveResources();
     },
   },
   provide() {
     return {
-      ressources: this.ressources,
-      updateRessources: this.updateRessources,
-      addRessource: this.addRessource,
-      editRessource: this.editRessource,
-      removeRessource: this.removeRessource,
+      resources: this.resources,
+      updateResources: this.updateResources,
+      addResource: this.addResource,
+      editResource: this.editResource,
+      removeResource: this.removeResource,
     };
   },
 };
@@ -67,20 +67,20 @@ export default {
   <div class="container">
     <button
       type="button"
-      @click="selectTab('stored-ressources')"
-      :class="{ active: activeTab === 'stored-ressources' }"
+      @click="selectTab('stored-resources')"
+      :class="{ active: activeTab === 'stored-resources' }"
       role="tablist"
     >
-      Stored ressources
+      Stored resources
     </button>
     <button
       type="button"
-      @click="selectTab('base-ressource-form', true)"
-      :class="{ active: activeTab === 'base-ressource-form' }"
+      @click="selectTab('base-resource-form', true)"
+      :class="{ active: activeTab === 'base-resource-form' }"
       role="tablist"
     >
-      Add ressource
+      Add resource
     </button>
-    <component :is="activeTab" :ressource="ressource"> </component>
+    <component :is="activeTab" v-bind="activeTab === 'base-resource-form' ? { resource } : {}"> </component>
   </div>
 </template>

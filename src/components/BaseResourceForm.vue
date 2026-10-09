@@ -4,23 +4,21 @@ import { isValidLink } from "../utilities/form-validators";
 export default {
   components: { BaseDialog },
   props: {
-    ressource: { type: Object, required: false },
+    resource: { type: Object, required: false },
   },
-  inject: ["updateRessources", "addRessource"],
+  inject: ["updateResources", "addResource"],
   data() {
     return {
-      data: { title: "", description: "", link: "", ...this.ressource },
+      data: { title: "", description: "", link: "", ...this.resource },
       formIsInvalid: false,
       error: [],
     };
   },
   methods: {
     submit() {
-      // Reset Errors.
       this.formIsInvalid = false;
       const errors = [];
       this.error = [];
-      //
       const data = Object.fromEntries(new FormData(this.$refs.form));
       for (const [key, value] of Object.entries(data)) {
         if (value === "") {
@@ -38,9 +36,9 @@ export default {
         this.formIsInvalid = true;
         return;
       }
-      this.ressource
-        ? this.updateRessources({ id: this.ressource.id, ...data })
-        : this.addRessource(data);
+      this.resource
+        ? this.updateResources({ id: this.resource.id, ...data })
+        : this.addResource(data);
       this.$refs.form.reset();
     },
   },
@@ -68,7 +66,7 @@ export default {
         <span class="label"><small>Link</small></span>
         <input type="url" name="link" required v-model="data.link" />
       </label>
-      <button class="btn-cta" type="submit">{{ressource ? 'Update ressource' : 'Add Ressource'}}</button>
+      <button class="btn-cta" type="submit">{{ resource ? 'Update resource' : 'Add resource' }}</button>
     </form>
     <Teleport to="body">
       <base-dialog v-if="formIsInvalid" @close="formIsInvalid = false">
