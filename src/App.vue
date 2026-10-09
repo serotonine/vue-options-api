@@ -15,7 +15,8 @@ export default {
     };
   },
   methods: {
-    selectTab(tab) {
+    selectTab(tab, isEmpty=false) {
+      if(isEmpty) this.ressource = null;
       this.activeTab = tab;
     },
     loadRessources() {
@@ -68,18 +69,18 @@ export default {
       type="button"
       @click="selectTab('stored-ressources')"
       :class="{ active: activeTab === 'stored-ressources' }"
+      role="tablist"
     >
       Stored ressources
     </button>
     <button
       type="button"
-      @click="selectTab('base-ressource-form')"
+      @click="selectTab('base-ressource-form', true)"
       :class="{ active: activeTab === 'base-ressource-form' }"
+      role="tablist"
     >
       Add ressource
     </button>
-    <!-- <keep-alive> -->
     <component :is="activeTab" :ressource="ressource"> </component>
-    <!-- </keep-alive> -->
   </div>
 </template>

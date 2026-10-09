@@ -33,15 +33,13 @@ export default {
     <div>
       <h3>{{ ressource.title }}</h3>
       <p>{{ ressource.description }}</p>
-      <a :href="ressource.link">Read more...</a>
+      <a :href="ressource.link" target="_blank" rel="noopener noreferrer">Read more...</a>
     </div>
     <hr />
   </article>
 </template>
 
 <style scoped>
-r.essources_item {
-}
 .item_cta {
   display: flex;
   justify-content: flex-end;

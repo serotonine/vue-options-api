@@ -19,18 +19,12 @@ export default {
 
 <template>
   <dialog ref="dialog">
-    <h3 @click="close"><X :size="24"/></h3>
+    <button class="btn-neutral" @click="close"><X :size="24"/></button>
     <slot></slot>
   </dialog>
 </template>
 
 <style scoped>
-h3 {
-  text-align: right;
-  cursor: pointer;
-  margin: 0;
-  padding: 1em 0 0;
-}
 dialog {
   padding: 0 1em 1em 1em;
   width: 40%;

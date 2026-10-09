@@ -19,7 +19,7 @@ export default {
       // Reset Errors.
       this.formIsInvalid = false;
       const errors = [];
-      this.error = "";
+      this.error = [];
       //
       const data = Object.fromEntries(new FormData(this.$refs.form));
       for (const [key, value] of Object.entries(data)) {
@@ -32,9 +32,8 @@ export default {
         errors.push("link is not valid");
       }
       if (errors.length) {
-        console.log("errors", errors);
         for (const err of errors) {
-          this.error += `<li>${err}</li>`;
+          this.error.push(err);
         }
         this.formIsInvalid = true;
         return;
@@ -69,12 +68,14 @@ export default {
         <span class="label"><small>Link</small></span>
         <input type="url" name="link" required v-model="data.link" />
       </label>
-      <button class="btn-cta" type="submit">Add Ressource</button>
+      <button class="btn-cta" type="submit">{{ressource ? 'Update ressource' : 'Add Ressource'}}</button>
     </form>
     <Teleport to="body">
       <base-dialog v-if="formIsInvalid" @close="formIsInvalid = false">
         <h3 class="error">Please fix:</h3>
-        <ul class="error" v-html="error"></ul>
+        <ul class="error">
+          <li v-for="e in error" :key="e">{{e}}</li>
+        </ul>
       </base-dialog>
     </Teleport>
   </section>
