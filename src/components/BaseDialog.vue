@@ -1,4 +1,7 @@
 <script>
+// Generic modal dialog built on the native <dialog> element.
+// showModal() gives us a free backdrop and focus trap without extra libraries.
+// Content is injected via the default slot.
 import { X } from "lucide-vue-next";
 export default {
   components: { X },
@@ -6,6 +9,7 @@ export default {
     open() {
       this.$refs.dialog.showModal();
     },
+    // Emits "close" so the parent can toggle its v-if and unmount this component
     close() {
       this.$emit("close");
     },

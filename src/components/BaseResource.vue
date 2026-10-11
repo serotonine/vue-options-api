@@ -1,4 +1,6 @@
 <script>
+// Displays a single resource card with edit and delete actions.
+// editResource and removeResource are injected from App.vue (avoid prop-drilling).
 import { Pencil, Trash } from "lucide-vue-next";
 export default {
   components: { Pencil, Trash },
@@ -16,6 +18,7 @@ export default {
         this.removeResource(this.resource);
       }
       else{
+        // Blur the button so it doesn't remain focused after the user cancels
         this.$refs.cancelButton.blur();
       }
     },
@@ -27,10 +30,10 @@ export default {
   <article class="resources_item">
     <div class="item_cta">
       <button class="btn-edit" @click="edit">
-        <Pencil :size="12">Edit</Pencil>
+        <Pencil :size="12" stroke-width="4">Edit</Pencil>
       </button>
       <button class="btn-delete" @click="remove" ref="cancelButton">
-        <Trash :size="12">Delete</Trash>
+        <Trash :size="12" stroke-width="4">Delete</Trash>
       </button>
     </div>
     <div>

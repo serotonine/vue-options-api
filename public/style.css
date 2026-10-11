@@ -1,7 +1,10 @@
 html {
   font-family: sans-serif;
 }
-html *{ box-sizing: border-box;}
+
+html * {
+  box-sizing: border-box;
+}
 
 body {
   margin: 0;
@@ -11,6 +14,10 @@ body {
 h1 {
   text-align: center;
 }
+
+/* h3 {
+  margin-block-start: 0;
+} */
 
 p,
 a {
@@ -65,43 +72,49 @@ button {
     border-radius: 5px;
     margin-bottom: 1em;
   }
+
   &.btn-edit,
   &.btn-delete {
+    display: inline-flex;
+    align-items: center;
+    justify-items: center;
     width: 2em;
     height: 2em;
     padding: 0.5em;
     border-radius: 100%;
     background-color: gainsboro;
     transition: background-color 0.2s ease-out, opacity 0.2s ease-out;
-    opacity: 0.7;
+    opacity: 0.4;
+
     &:hover,
     &:focus {
       opacity: 1;
     }
   }
+
   &.btn-edit {
+
     &:hover,
     &:focus {
       background-color: rgb(30, 104, 239);
-      
     }
-    
   }
 
   &.btn-delete {
+
     &:hover,
     &:focus {
       background-color: crimson;
-     
+
     }
-    
+
   }
 
   &.btn-neutral {
     background-color: transparent;
     color: darkslategray;
     float: right;
-    padding:1em 0;
+    padding: 1em 0;
     transition: color 0.2s ease-out;
 
     &:hover,
@@ -139,7 +152,9 @@ label:has(:required) span {
   color: cornflowerblue;
 }
 
-
 .error {
   color: crimson;
+}
+.invisible{
+  visibility: hidden;
 }

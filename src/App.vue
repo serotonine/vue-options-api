@@ -1,4 +1,7 @@
 <script>
+// Root component — owns the resource list and all CRUD logic.
+// All methods and the resource array are shared via provide() so child
+// components can inject them directly without prop-drilling.
 import StoredResources from "./components/StoredResources.vue";
 import BaseResourceForm from "./components/BaseResourceForm.vue";
 
@@ -9,12 +12,15 @@ export default {
   },
   data() {
     return {
+      // Tab name matches the kebab-case component name used by <component :is>.
       activeTab: "stored-resources",
       resources: this.loadResources(),
+      // Holds the resource being edited; null means we're in "add" mode.
       resource: null,
     };
   },
   methods: {
+    // isEmpty resets the edited resource when switching to the "Add" tab manually.
     selectTab(tab, isEmpty=false) {
       if(isEmpty) this.resource = null;
       this.activeTab = tab;
@@ -27,11 +33,13 @@ export default {
       localStorage.setItem("resources", JSON.stringify(this.resources));
     },
     addResource(resource) {
+      // unshift places the new resource at the top of the list
       this.resources.unshift({ ...resource, id: crypto.randomUUID() });
       this.saveResources();
       this.selectTab("stored-resources");
     },
     updateResources(resource) {
+      // splice replaces in-place to keep the same list position
       const index = this.resources.findIndex((r) => r.id === resource.id);
       this.resources.splice(index, 1, { ...resource });
       this.resource = null;
@@ -39,6 +47,7 @@ export default {
       this.saveResources();
     },
     editResource(resource) {
+      // Sets the resource to edit, then switches to the form tab
       this.resource = resource;
       this.selectTab("base-resource-form");
     },
@@ -48,6 +57,7 @@ export default {
       this.saveResources();
     },
   },
+  // Expose resources and CRUD methods to all descendants via inject
   provide() {
     return {
       resources: this.resources,
@@ -81,6 +91,8 @@ export default {
     >
       Add resource
     </button>
+    <!-- Dynamic component: switches between StoredResources and BaseResourceForm.
+         The resource prop is only passed when on the form tab (edit mode). -->
     <component :is="activeTab" v-bind="activeTab === 'base-resource-form' ? { resource } : {}"> </component>
   </div>
 </template>

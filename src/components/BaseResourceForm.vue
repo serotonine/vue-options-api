@@ -1,14 +1,18 @@
 <script>
+// Dual-purpose form: "Add" mode when no resource prop is passed, "Edit" mode when one is.
+// Validation errors are collected and shown in a modal dialog (BaseDialog).
 import BaseDialog from "./BaseDialog.vue";
 import { isValidLink } from "../utilities/form-validators";
 export default {
   components: { BaseDialog },
   props: {
+    // Optional: if provided, the form pre-fills with this resource's data (edit mode)
     resource: { type: Object, required: false },
   },
   inject: ["updateResources", "addResource"],
   data() {
     return {
+      // Spread resource so the form works in both add and edit mode with one v-model
       data: { title: "", description: "", link: "", ...this.resource },
       formIsInvalid: false,
       error: [],
@@ -19,6 +23,7 @@ export default {
       this.formIsInvalid = false;
       const errors = [];
       this.error = [];
+      // FormData reads field values by their name attribute — no need to list them manually
       const data = Object.fromEntries(new FormData(this.$refs.form));
       for (const [key, value] of Object.entries(data)) {
         if (value === "") {
@@ -29,7 +34,7 @@ export default {
       if (data.link !== "" && !isValidLink(data.link)) {
         errors.push("link is not valid");
       }
-      
+
       if (errors.length) {
         for (const err of errors) {
           this.error.push(err);
@@ -37,6 +42,7 @@ export default {
         this.formIsInvalid = true;
         return;
       }
+      // resource prop presence decides add vs update
       this.resource
         ? this.updateResources({ id: this.resource.id, ...data })
         : this.addResource(data);
@@ -71,6 +77,7 @@ export default {
         {{ resource ? "Update resource" : "Add resource" }}
       </button>
     </form>
+    <!-- Teleport renders the dialog directly in <body> to avoid z-index/stacking issues -->
     <Teleport to="body">
       <base-dialog v-if="formIsInvalid" @close="formIsInvalid = false">
         <h3 class="error">Please fix:</h3>
