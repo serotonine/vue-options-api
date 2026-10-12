@@ -72,54 +72,39 @@ button {
     border-radius: 5px;
     margin-bottom: 1em;
   }
+  &.btn-neutral {
+    background-color: transparent;
+    color: darkslategray;
+  }
 
-  &.btn-edit,
-  &.btn-delete {
-    display: inline-flex;
-    align-items: center;
-    justify-items: center;
-    width: 2em;
-    height: 2em;
-    padding: 0.5em;
-    border-radius: 100%;
-    background-color: gainsboro;
+  &.btn-icon {
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    padding: 0;
     transition: background-color 0.2s ease-out, opacity 0.2s ease-out;
-    opacity: 0.4;
-
     &:hover,
     &:focus {
       opacity: 1;
     }
   }
-
+  &.btn-edit,
+  &.btn-delete {
+    width: 2em;
+    height: 2em;
+    background-color: gainsboro;
+    opacity: 0.4;
+  }
   &.btn-edit {
-
     &:hover,
     &:focus {
       background-color: rgb(30, 104, 239);
     }
   }
-
   &.btn-delete {
-
     &:hover,
     &:focus {
       background-color: crimson;
-
-    }
-
-  }
-
-  &.btn-neutral {
-    background-color: transparent;
-    color: darkslategray;
-    float: right;
-    padding: 1em 0;
-    transition: color 0.2s ease-out;
-
-    &:hover,
-    &:focus {
-      color: black;
     }
   }
 }
@@ -155,6 +140,7 @@ label:has(:required) span {
 .error {
   color: crimson;
 }
-.invisible{
+
+.invisible {
   visibility: hidden;
 }

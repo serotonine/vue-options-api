@@ -34,6 +34,9 @@ export default {
       if (data.link !== "" && !isValidLink(data.link)) {
         errors.push("link is not valid");
       }
+      if (data.description.length > 600) {
+        errors.push("The description must have max 600 characters");
+      }
 
       if (errors.length) {
         for (const err of errors) {
@@ -68,6 +71,7 @@ export default {
           required
           v-model="data.description"
         ></textarea>
+        <p class="info"><small>Max 600 characters.</small></p>
       </label>
       <label>
         <span class="label"><small>Link</small></span>
@@ -95,9 +99,16 @@ form {
   margin-top: 1em;
 }
 
-ul.error > li {
-  margin: 0;
-  padding: 0;
-  list-style-position: inside;
+ul.error {
+  padding-left: 0;
+  li {
+    margin: 0;
+    padding: 0;
+    list-style-position: inside;
+  }
+}
+.info {
+  color: lightslategray;
+  margin-top: -1em;
 }
 </style>

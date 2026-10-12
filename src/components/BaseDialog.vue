@@ -23,7 +23,9 @@ export default {
 
 <template>
   <dialog ref="dialog">
-    <button class="btn-neutral" @click="close"><X :size="24"/></button>
+    <button class="btn-neutral btn-icon" @click="close">
+      <X :size="24" />
+    </button>
     <slot></slot>
   </dialog>
 </template>
@@ -33,7 +35,15 @@ dialog {
   padding: 0 1em 1em 1em;
   width: 40%;
   background-color: white;
-  border-radius:6px;
-  border-color:crimson;
+  border-radius: 6px;
+  border-color: crimson;
+}
+.btn-neutral.btn-icon {
+  margin-top: 1em;
+  float: right;
+  &:hover,
+  &:focus {
+    background-color: gainsboro;
+  }
 }
 </style>

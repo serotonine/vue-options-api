@@ -18,6 +18,18 @@ export default {
       isResult: false,
     };
   },
+  computed: {
+    resultMessage() {
+      const lg = this.searchResults.length;
+      if (this.isResult) {
+        return `Your search has ${lg} result${lg > 1 ? "s" : ""}.`;
+      } else if (this.noResult) {
+        return "No results.";
+      } else {
+        return "\u00A0";
+      }
+    },
+  },
   methods: {
     // Normalizes text for case-insensitive, whitespace-trimmed comparison
     cleanTxt(txt) {
@@ -60,7 +72,7 @@ export default {
 </script>
 <template>
   <fieldset>
-    <button class="btn-neutral search-reset" @click="resetSearch">
+    <button class="btn-neutral btn-icon search-reset" @click="resetSearch">
       <X size="14">reset</X>
     </button>
     <input
@@ -77,14 +89,7 @@ export default {
       <Search size="20">Search</Search>
     </button>
   </fieldset>
-  <h4>
-    <span v-if="noResult" class="error">Your search has no results</span>
-    <span v-if="isResult"
-      >Your search has {{ searchResults.length }} result{{
-        searchResults.length > 1 ? "s" : ""
-      }}</span
-    >
-  </h4>
+  <h4 :class="{ error: noResult }">{{ resultMessage }}</h4>
 </template>
 
 <style scoped>
@@ -119,11 +124,25 @@ input[type="search"]::-webkit-search-cancel-button {
 }
 .search-reset {
   position: absolute;
+  /* The inset-block CSS property defines the logical block start and end offsets of an element, 
+  * which maps to physical offsets depending on the element's writing mode, 
+  * directionality, and text orientation. It corresponds to the top and bottom, 
+  * or right and left properties depending on the values defined for writing-mode, direction, and text-orientation.
+  */
   inset-block: 0;
   right: 3.25em;
-  opacity: 0.5;
-  &:hover {
-    opacity: 1;
+  /* Vertical centering between top: 0 and bottom: 0 */
+  margin-block: auto;   
+  padding: 0;
+  width: 1.5em;
+  height: 1.5em;
+  opacity: 0.8;
+  background-color: white;
+  transition: background-color 0.2s ease-out;
+  &:hover,
+  &:focus,
+  &:focus-within {
+    background-color: gainsboro;
   }
 }
 .btn-cta.b-0 {
